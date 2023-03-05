@@ -14,9 +14,9 @@ function convertStringArrayToBytes32(array: string[]) {
 
 async function main() {
   // connect to provider
-  const provider = new ethers.providers.InfuraProvider(
+  const provider = new ethers.providers.AlchemyProvider(
     "goerli",
-    process.env.INFURA_API_KEY
+    process.env.ALCHEMY_API_KEY
   );
 
   const privateKey = process.env.PRIVATE_KEY;
@@ -27,41 +27,41 @@ async function main() {
   const signer = wallet.connect(provider);
 
   const balance = await signer.getBalance();
-  console.log(balance);
-  //   console.log(`The account ${signer.address} has a balance of ${balance} Wei`);
 
-  //   const tokenContractFactory = new MyToken__factory(signer);
-  //   const tokenContract = await tokenContractFactory.deploy();
-  //   const deployTxReciept = await tokenContract.deployTransaction.wait();
-  //   console.log(
-  //     `The contract was deplyed at ${tokenContract.address} at the block number ${deployTxReciept.blockNumber}`
-  //   );
+  console.log(`The account ${signer.address} has a balance of ${balance} Wei`);
 
-  //   // set arguments for proposal
-  //   const args = process.argv;
-  //   const proposals = args.slice(2);
-  //   if (proposals.length <= 0) throw new Error("Missing argument: proposals");
-  //   console.log("Proposals: ");
-  //   proposals.forEach((element, index) => {
-  //     console.log(`Proposal N. ${index + 1}: ${element}`);
-  //   });
+  const tokenContractFactory = new MyToken__factory(signer);
+  const tokenContract = await tokenContractFactory.deploy();
+  const deployTxReciept = await tokenContract.deployTransaction.wait();
+  console.log(
+    `The contract was deplyed at ${tokenContract.address} at the block number ${deployTxReciept.blockNumber}`
+  );
 
-  //   // set block number
-  //   const currentBlock = await provider.getBlock("latest");
-  //   console.log(`We are currently at block ${currentBlock.number}`);
+  // set arguments for proposal
+  const args = process.argv;
+  const proposals = args.slice(2);
+  if (proposals.length <= 0) throw new Error("Missing argument: proposals");
+  console.log("Proposals: ");
+  proposals.forEach((element, index) => {
+    console.log(`Proposal N. ${index + 1}: ${element}`);
+  });
 
-  //   // create ballot contract
-  //   const ballotContractFactory = new TokenizedBallot__factory(signer);
-  //   console.log("Deploying ballot contract...");
-  //   const ballotContract = await ballotContractFactory.deploy(
-  //     convertStringArrayToBytes32(proposals),
-  //     tokenContract.address,
-  //     currentBlock.number
-  //   );
-  //   const ballotContractTxReceipt = await ballotContract.deployTransaction.wait();
-  //   console.log(
-  //     `The ballot contract was deployed at ${ballotContract.address} in block number ${ballotContractTxReceipt.blockNumber}`
-  //   );
+  // set block number
+  const currentBlock = await provider.getBlock("latest");
+  console.log(`We are currently at block ${currentBlock.number}`);
+
+  // create ballot contract
+  const ballotContractFactory = new TokenizedBallot__factory(signer);
+  console.log("Deploying ballot contract...");
+  const ballotContract = await ballotContractFactory.deploy(
+    convertStringArrayToBytes32(proposals),
+    tokenContract.address,
+    currentBlock.number
+  );
+  const ballotContractTxReceipt = await ballotContract.deployTransaction.wait();
+  console.log(
+    `The ballot contract was deployed at ${ballotContract.address} in block number ${ballotContractTxReceipt.blockNumber}`
+  );
 }
 
 main().catch((error) => {
