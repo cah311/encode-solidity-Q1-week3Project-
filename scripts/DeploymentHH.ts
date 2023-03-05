@@ -13,6 +13,10 @@ function convertStringArrayToBytes32(array: string[]) {
 async function main() {
   // connect to hardhat wallets
   const [deployer, account1, account2, account3] = await ethers.getSigners();
+  console.log(`deployer: ${deployer.address}`);
+  console.log(`account1: ${account1.address}`);
+  console.log(`account2: ${account2.address}`);
+  console.log(`account3: ${account3.address}`);
   const tokenContractFactory = new MyToken__factory(deployer);
   const tokenContract = await tokenContractFactory.deploy();
   const deployTxReciept = await tokenContract.deployTransaction.wait();
