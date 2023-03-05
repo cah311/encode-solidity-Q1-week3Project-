@@ -12,3 +12,9 @@ Deployment contract command:
 // for hardhat blockchain
 yarn run ts-node --files ./scripts/DeploymentHH.ts <arg1> <arg2> ...
 ```
+
+Mint Contract command:
+
+```
+yarn run ts-node --files ./scripts/MintTokensHH.ts <contract address> <signer address> <mint to address>
+```
