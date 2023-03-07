@@ -21,6 +21,8 @@ typechain-types
 cache
 artifacts
 
+Deployment.ts
+
 
 node_modules
 .env
